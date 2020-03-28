@@ -11,7 +11,7 @@ public class Target extends CannonGame {
     int width = 130;
     int height = 59;
     static Random r = new Random();
-    static int x = r.nextInt(450) + 250;
+    static int x = r.nextInt(250) + 150;
     int y;
 
     @Override
@@ -32,7 +32,7 @@ public class Target extends CannonGame {
 
     public boolean hit(Ball ball) {
         if ((ball.ballX + ball.width) >= x && (ball.ballX) <= (x + width)) {
-            if ((ball.ballY + ball.height) >= y && (ball.ballY) <= (y + height)) {
+            if ((ball.ballY + ball.height) >= y && (ball.ballY) <= (y )) {
                 return true;
             }
         }

@@ -4,6 +4,10 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Game {
     public static void main(String[] args) throws SlickException {
+        initialize();
+
+    }
+    public static void initialize() throws SlickException{
         CannonGame game = new CannonGame();
         AppGameContainer app = new AppGameContainer(game, 1200, 900, false);
         app.setShowFPS(false);
@@ -28,9 +32,13 @@ class CannonGame extends BasicGame {
     int frameset = 0;
     boolean activeBall = false;
     boolean devMode = false;
+    int width;
+    int height;
     int halfWidth;
     int halfHeight;
     int score = 0;
+    int ballAmount = 10;
+    int currentBalls;
 
     public CannonGame() {
         super("Game");
@@ -38,6 +46,8 @@ class CannonGame extends BasicGame {
 
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
+
+
         gameContainer.setTargetFrameRate(59);
         bg = new Landscape();
         cannon = new Cannon();
@@ -47,6 +57,10 @@ class CannonGame extends BasicGame {
         ft20 = ResourceManager.getFont("resources/WHITRABT.ttf", 20);
         bFt = ResourceManager.getFont("resources/WHITRABT.ttf", 60);
         initBg = ResourceManager.getImage("resources/initBg.jpg");
+        width = gameContainer.getWidth();
+        height = gameContainer.getHeight();
+        halfWidth = width / 2;
+        halfHeight = height / 2;
 
     }
 
@@ -65,15 +79,18 @@ class CannonGame extends BasicGame {
         if (!startup) {
             cannon.update(gameContainer, i);
             if (!activeBall) {
-                if (input.isKeyPressed(Input.KEY_SPACE)) {
+                if (input.isKeyDown(Input.KEY_SPACE) && currentBalls > 0) {
                     currBall = cannon.fire();
                     activeBall = true;
+
                 }
             }
         }
+
         if (activeBall) {
             currBall.update(gameContainer, i);
             if (currBall.hasFallen()) {
+                currentBalls--;
                 activeBall = false;
             }
             try {
@@ -99,6 +116,7 @@ class CannonGame extends BasicGame {
 
         if (input.isKeyDown(Input.KEY_ENTER) && startup) {
             startup = false;
+            currentBalls = ballAmount;
         }
 
         //Reset Input Start--------------------
@@ -106,11 +124,7 @@ class CannonGame extends BasicGame {
             resetTimer++;
             if (resetTimer > 60) {
                 //On reset actions
-                currBall = new Ball();
-                activeBall = false;
-                resetTimeout = 30;
-                resetTimer = 0;
-                reset = true;
+                resetVariables();
             }
         } else {
             resetTimer = 0;
@@ -122,15 +136,24 @@ class CannonGame extends BasicGame {
 
 
     }
+    public  void  resetVariables(){
+        currBall = new Ball();
+        activeBall = false;
+        resetTimeout = 30;
+        resetTimer = 0;
+        reset = true;
+        currentBalls = ballAmount;
+        score = 0;
+        startup = true;
+    }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        halfWidth = gameContainer.getWidth() / 2;
-        halfHeight = gameContainer.getHeight() / 2;
+
         graphics.setColor(Color.black);
 
         if (startup) {
-            initBg = initBg.getScaledCopy(gameContainer.getWidth(), gameContainer.getHeight());
+            initBg = initBg.getScaledCopy(width, height);
             graphics.drawImage(initBg, 0, 0);
             ft50.drawString(halfWidth - 280,
                     halfHeight - 50, "press");
@@ -140,7 +163,7 @@ class CannonGame extends BasicGame {
                     halfHeight - 50, "to begin");
 
 
-        } else {
+        } else if (currentBalls > 0){
             bg.render(gameContainer, graphics);
             cannon.render(gameContainer, graphics);
             target.render(gameContainer, graphics);
@@ -152,10 +175,26 @@ class CannonGame extends BasicGame {
                 reset = false;
             }
 
+            //Ball counter Start-----------------
+            graphics.setColor(Color.white);
+            graphics.fillRect(width-50,halfHeight-(ballAmount*25),26,(ballAmount*25)+(ballAmount*2)+2);
+            graphics.setColor(Color.black);
+            graphics.drawRect(width-50,halfHeight-(ballAmount*25),26,(ballAmount*25)+(ballAmount*2) +2);
+
+            double tmp = (currentBalls*100);
+            tmp = tmp / ballAmount;
+            tmp =  100-tmp ;
+            graphics.setColor(strengthColor(tmp));
+            for (int i = 0; i < currentBalls; i++) {
+                graphics.fillRect(width-47,halfHeight-((i*25)+(i*2)),20,20);
+            }
+            //-----------------Ball counter End
+
+
             //Strength display Start-----------------
             graphics.setColor(Color.black);
             float rectWidth = 30;
-            float rectHeight = gameContainer.getHeight() - 50;
+            float rectHeight = height - 50;
             float cannonWidth = 120;
             float cannonHeight = 20;
             graphics.draw(new Rectangle(rectWidth, rectHeight, cannonWidth, cannonHeight));
@@ -178,14 +217,14 @@ class CannonGame extends BasicGame {
             //Score board Start-----------------
             if (score > 0) {
                 graphics.setColor(Color.black);
-                ft20.drawString(gameContainer.getWidth() - 500, 50, "Score:");
-                ft50.drawString(gameContainer.getWidth() - 450, 50, " " + score);
+                ft20.drawString(width - 500, 50, "Score:");
+                ft50.drawString(width - 450, 50, " " + score);
 
             }
             //----------------- Score board End
 
             //Reset animation Start-----------------
-            ft20.drawString(gameContainer.getWidth() - 250, 50, "hold R to restart");
+            ft20.drawString(width - 250, 50, "hold R to restart");
             if (resetTimer != 0) {
                 graphics.setColor(Color.red);
                 graphics.fillRect(halfWidth - 205, halfHeight - 60, (float) (resetTimer * (6)), 60);
@@ -194,7 +233,7 @@ class CannonGame extends BasicGame {
             }
             //----------------- Reset animation End
 
-            //Dev menu with the projectile attributes
+            //Dev menu Start-----------------
             if (devMode) {
                 graphics.setColor(Color.lightGray);
                 graphics.fillRect(0, 0, 300, 340);
@@ -214,8 +253,25 @@ class CannonGame extends BasicGame {
                         250, "Cos: " + Math.cos(currBall.angleRad), Color.black);
                 ft20.drawString(10,
                         300, "Sin: " + Math.sin(currBall.angleRad), Color.black);
-            }
 
+                graphics.setColor(Color.green);
+                for (int i = 0; i < 200 ; i++) {
+
+                    int tmpiniX = (int)((Math.cos(Math.toRadians(cannon.rotation)))*200) +cannon.x;
+                    int tmpiniY= cannon.y- (int)((Math.sin(Math.toRadians(cannon.rotation)))*200);
+                    int tmpX =(int) Math.floor((tmpiniX) +((Math.cos(Math.toRadians(cannon.rotation))) * i) * ((cannon.strength + 100) / 9));
+                    int tmpY=(int) Math.floor((tmpiniY) - ((((Math.sin(Math.toRadians(cannon.rotation))) * i) - (((i * (i / 10)) * 0.5) / 5))) * ((cannon.strength + 100) / 9));
+                    graphics.fillRect(tmpX,tmpY,15,15);
+                }
+            }
+            //----------------- Dev menu End
+            graphics.setColor(Color.black);
+            graphics.drawArc(300,300,500,-300,0,0);
+
+
+        } else {
+            initBg = initBg.getScaledCopy(width, height);
+            graphics.drawImage(initBg, 0, 0);
         }
     }
 
