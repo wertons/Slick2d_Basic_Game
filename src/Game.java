@@ -2,6 +2,8 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.io.IOException;
+
 public class Game {
     public static void main(String[] args) throws SlickException {
         initialize();
@@ -272,6 +274,7 @@ class CannonGame extends BasicGame {
         } else {
             initBg = initBg.getScaledCopy(width, height);
             graphics.drawImage(initBg, 0, 0);
+
         }
     }
 
