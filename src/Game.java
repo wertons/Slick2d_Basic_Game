@@ -38,6 +38,7 @@ class CannonGame extends BasicGame {
     int frameset = 0;
     boolean activeBall = false;
     boolean devMode = false;
+    boolean helpScreen = false;
     int width;
     int height;
     int halfWidth;
@@ -47,6 +48,7 @@ class CannonGame extends BasicGame {
     int currentBalls;
     Commit com = new Commit();
     int version;
+    String[] rules;
     int menuWidth;
     int menuHeight = 75;
     int menuOption = 2;
@@ -77,6 +79,7 @@ class CannonGame extends BasicGame {
         guardian3 = ResourceManager.getImage("resources/guardian_1.png");
         try {
             version = com.getCommits();
+            rules = com.getControls();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,9 +100,20 @@ class CannonGame extends BasicGame {
         if (startup){
             //Game initialization Start-----------------
 
-            if (input.isKeyDown(Input.KEY_ENTER) && startup) {
-                startup = false;
-                currentBalls = ballAmount;
+            if (input.isKeyDown(Input.KEY_ENTER)) {
+                switch (menuOption){
+                    case 2:
+                        startup = false;
+                        currentBalls = ballAmount;
+                        break;
+                    case 1:
+                        break;
+                    case 0:
+                        helpScreen  = true;
+
+                        break;
+                }
+
             }
             //-----------------Game initialization End
             //Startup menu controls Start-----------------
@@ -111,6 +125,14 @@ class CannonGame extends BasicGame {
 
             }
             //-----------------Startup menu controls End
+            //-----------------Help Screen Start
+            if (helpScreen){
+                if (input.isKeyDown(Input.KEY_ESCAPE)){
+                    helpScreen = false;
+                }
+            }
+            //Help Screen End-----------------
+
 
         } else {
             //Projectile Update Start-----------------
@@ -225,6 +247,25 @@ class CannonGame extends BasicGame {
 
 
             //-----------------Startup menu End
+            //Help menu Display Start-----------------
+            if (helpScreen){
+                graphics.setColor(Color.white);
+                graphics.fillRect(200,200,800,500);
+                graphics.setColor(Color.black);
+                graphics.setLineWidth(3);
+                graphics.drawRect(200,200,800,500);
+                graphics.resetLineWidth();
+                ft20.drawString(210,210,"[esc]",Color.red);
+                String currentRule = "Rules: ";
+                ft50.drawString(230,250,currentRule,Color.black);
+                for (int i = 0; i < rules.length; i++) {
+                    currentRule = rules[i];
+                    currentRule =   currentRule.replace("_"," ");
+                    ft20.drawString(halfWidth-150,halfHeight-200+(i*60),currentRule,Color.black);
+                }
+            }
+            //-----------------Help menu Display End
+
 
 
         } else {
