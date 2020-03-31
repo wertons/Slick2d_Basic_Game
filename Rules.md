@@ -1,6 +1,6 @@
 Controls<br>
-	- Enter: Start the game.<br>
-	- Up/Down: Modify cannon angle.<br>
-	- Left/Right:Modify cannon strength.<br>
-	- Space: Fire the cannon.<br>
-	- Hold D: DevMode.
+	- Enter:_Start_the_game.<br>
+	- Up/Down:_Modify_cannon_angle.<br>
+	- Left/Right:Modify_cannon_strength.<br>
+	- Space:_Fire_the_cannon.<br>
+	- Hold_D:_DevMode.
