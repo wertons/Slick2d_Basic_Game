@@ -64,9 +64,7 @@ public class Cannon extends CannonGame {
 
     }
 
-    void updateRotation(double deltaRotation){}
 
-    void updateStrength(double deltaStrength){}
 
     double getRotation(){return rotation;}
 

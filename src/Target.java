@@ -43,4 +43,7 @@ public class Target extends CannonGame {
         x = r.nextInt(750) + 450;
     }
 
+    void setDifficulty(double dif){
+        width =(int)( width * dif);
+    }
 }
