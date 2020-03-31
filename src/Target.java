@@ -8,11 +8,14 @@ import java.util.Random;
 
 public class Target extends CannonGame {
     Image target;
-    int width = 130;
-    int height = 59;
+    int ogWidth = 130;
+    int width = ogWidth;
+    int ogHeight = 59;
+    int height = ogHeight;
     static Random r = new Random();
     static int x = r.nextInt(250) + 150;
-    int y;
+    static int y = 820;
+    static int yRange = 1;
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
@@ -22,17 +25,17 @@ public class Target extends CannonGame {
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        y = gameContainer.getHeight() - 80;
 
 
         target = ResourceManager.getImage("resources/target.png");
+        target = target.getScaledCopy(width, height);
 
         graphics.drawImage(target, x, y);
     }
 
     public boolean hit(Ball ball) {
         if ((ball.ballX + ball.width) >= x && (ball.ballX) <= (x + width)) {
-            if ((ball.ballY + ball.height) >= y && (ball.ballY) <= (y )) {
+            if ((ball.ballY + ball.height) >= y && (ball.ballY) <= (y)) {
                 return true;
             }
         }
@@ -40,10 +43,39 @@ public class Target extends CannonGame {
     }
 
     static void reset() {
-        x = r.nextInt(750) + 450;
+        x = r.nextInt(600) + 450;
+        y = 820 - r.nextInt(yRange);
     }
 
-    void setDifficulty(double dif){
-        width =(int)( width * dif);
+    String setDifficulty(int dif) {
+        switch (dif) {
+            case 1:
+                width = (int) (ogWidth);
+                height = (int) (ogHeight);
+
+                yRange = 1;
+                return "Easy";
+            case 2:
+                width = (int) (ogWidth * 0.75);
+                height = (int) (ogHeight * 0.75);
+
+                yRange = 200;
+                return "Normal";
+
+            case 3:
+                width = (int) (ogWidth * 0.2);
+                height = (int) (ogHeight * 0.2);
+
+                yRange = 400;
+
+                return "Hard";
+            case 4:
+                width = (int) (ogWidth * 0.02);
+                height = (int) (ogHeight * 0.02);
+
+                yRange = 800;
+                return "Pain";
+        }
+        return "Normal";
     }
 }

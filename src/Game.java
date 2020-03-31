@@ -52,6 +52,7 @@ class CannonGame extends BasicGame {
     int menuWidth;
     int menuHeight = 75;
     int menuOption = 2;
+    int difficulty = 1;
 
     public CannonGame() {
         super("Game");
@@ -65,6 +66,7 @@ class CannonGame extends BasicGame {
         bg = new Landscape();
         cannon = new Cannon();
         target = new Target();
+        target.reset();
         currBall = new Ball();
         ft50 = ResourceManager.getFont("resources/WHITRABT.ttf", 50);
         ft20 = ResourceManager.getFont("resources/WHITRABT.ttf", 20);
@@ -97,11 +99,11 @@ class CannonGame extends BasicGame {
         }
         //----------------- Frame set end
 
-        if (startup){
+        if (startup) {
             //Game initialization Start-----------------
 
             if (input.isKeyDown(Input.KEY_ENTER)) {
-                switch (menuOption){
+                switch (menuOption) {
                     case 2:
                         startup = false;
                         currentBalls = ballAmount;
@@ -109,7 +111,7 @@ class CannonGame extends BasicGame {
                     case 1:
                         break;
                     case 0:
-                        helpScreen  = true;
+                        helpScreen = true;
 
                         break;
                 }
@@ -117,17 +119,24 @@ class CannonGame extends BasicGame {
             }
             //-----------------Game initialization End
             //Startup menu controls Start-----------------
-            if (input.isKeyPressed(Input.KEY_DOWN) && menuOption > 0){
+            if (input.isKeyPressed(Input.KEY_DOWN) && menuOption > 0) {
                 menuOption--;
             }
-            if (input.isKeyPressed(Input.KEY_UP) && menuOption < 2){
+            if (input.isKeyPressed(Input.KEY_UP) && menuOption < 2) {
                 menuOption++;
-
+            }
+            if (menuOption == 1){
+                if (input.isKeyPressed(Input.KEY_LEFT) && difficulty > 1){
+                    difficulty --;
+                }
+                if (input.isKeyPressed(Input.KEY_RIGHT) && difficulty < 4){
+                    difficulty ++;
+                }
             }
             //-----------------Startup menu controls End
             //-----------------Help Screen Start
-            if (helpScreen){
-                if (input.isKeyDown(Input.KEY_ESCAPE)){
+            if (helpScreen) {
+                if (input.isKeyDown(Input.KEY_ESCAPE)) {
                     helpScreen = false;
                 }
             }
@@ -157,7 +166,7 @@ class CannonGame extends BasicGame {
                     if (target.hit(currBall)) {
                         score++;
                         activeBall = false;
-                        Target.reset();
+                        target.reset();
                     }
                 } catch (Exception ignore) {
 
@@ -190,7 +199,6 @@ class CannonGame extends BasicGame {
         }
 
 
-
     }
 
     public void resetVariables() {
@@ -217,28 +225,28 @@ class CannonGame extends BasicGame {
 
 
             ft50.drawString(width - 800, height - 50, "Version: " + version);
-            ft50.drawString(halfWidth , halfHeight - (menuHeight*2), "Start Game", Color.black);
-            ft50.drawString(halfWidth , halfHeight - menuHeight, "Difficulty", Color.black);
-            ft50.drawString(halfWidth , halfHeight, "Help", Color.black);
+            ft50.drawString(halfWidth, halfHeight - (menuHeight * 2), "Start Game", Color.black);
+            ft50.drawString(halfWidth, halfHeight - menuHeight, "Mode: "+target.setDifficulty(difficulty), Color.black);
+            ft50.drawString(halfWidth, halfHeight, "Help", Color.black);
 
             //Startup menu Selector Start-----------------
             graphics.setColor(Color.black);
-            graphics.fillRect(halfWidth-4,halfHeight-(menuHeight*menuOption)-4,400,54);
-            if (frameset > 60){
+            graphics.fillRect(halfWidth - 4, halfHeight - (menuHeight * menuOption) - 4, 400, 54);
+            if (frameset > 60) {
                 graphics.setColor(Color.white);
-                graphics.fillRect(halfWidth ,halfHeight-(menuHeight*menuOption),14,46);
+                graphics.fillRect(halfWidth, halfHeight - (menuHeight * menuOption), 14, 46);
             }
 
 
-            switch (menuOption){
+            switch (menuOption) {
                 case 2:
-                    ft50.drawString(halfWidth +20, halfHeight - (menuHeight*2)+4, "Start Game", Color.white);
+                    ft50.drawString(halfWidth + 20, halfHeight - (menuHeight * 2) + 4, "Start Game", Color.white);
                     break;
                 case 1:
-                    ft50.drawString(halfWidth +20, halfHeight - (menuHeight)+4, "Difficulty", Color.white);
+                    ft50.drawString(halfWidth + 20, halfHeight - (menuHeight) + 4, "Mode: "+target.setDifficulty(difficulty), Color.white);
                     break;
                 case 0:
-                    ft50.drawString(halfWidth +20, halfHeight+4, "Help", Color.white);
+                    ft50.drawString(halfWidth + 20, halfHeight + 4, "Help", Color.white);
                     break;
             }
 
@@ -248,24 +256,23 @@ class CannonGame extends BasicGame {
 
             //-----------------Startup menu End
             //Help menu Display Start-----------------
-            if (helpScreen){
+            if (helpScreen) {
                 graphics.setColor(Color.white);
-                graphics.fillRect(200,200,800,500);
+                graphics.fillRect(200, 200, 800, 500);
                 graphics.setColor(Color.black);
                 graphics.setLineWidth(3);
-                graphics.drawRect(200,200,800,500);
+                graphics.drawRect(200, 200, 800, 500);
                 graphics.resetLineWidth();
-                ft20.drawString(210,210,"[esc]",Color.red);
+                ft20.drawString(210, 210, "[esc]", Color.red);
                 String currentRule = "Rules: ";
-                ft50.drawString(230,250,currentRule,Color.black);
+                ft50.drawString(230, 250, currentRule, Color.black);
                 for (int i = 0; i < rules.length; i++) {
                     currentRule = rules[i];
-                    currentRule =   currentRule.replace("_"," ");
-                    ft20.drawString(halfWidth-150,halfHeight-200+(i*60),currentRule,Color.black);
+                    currentRule = currentRule.replace("_", " ");
+                    ft20.drawString(halfWidth - 150, halfHeight - 200 + (i * 60), currentRule, Color.black);
                 }
             }
             //-----------------Help menu Display End
-
 
 
         } else {
@@ -397,7 +404,7 @@ class CannonGame extends BasicGame {
                     }
 
                 } else {
-                    ft20.drawString(halfWidth - 300, halfHeight, "Did you really just fail all your shots?");
+                    ft50.drawString(halfWidth - 300, halfHeight, "");
                 }
                 //-----------------Score screen End
             }
@@ -434,6 +441,9 @@ class CannonGame extends BasicGame {
             return Color.white;
         }
 
+    }
+    int getDifficulty(){
+        return  difficulty;
     }
 
 }

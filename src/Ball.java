@@ -11,8 +11,9 @@ public class Ball extends CannonGame {
     Image[] sprites;
     int spriteCount = 20;
     Image currBall;
-    int width = 80;
-    int height = 80;
+
+    int width= 80;
+    int height= 80;
     int initX;
     int initY;
     Integer ballX;
@@ -29,14 +30,15 @@ public class Ball extends CannonGame {
     Ball() {
     }
 
-    Ball(float angle, int strength,int x, int y) {
+    Ball(float angle, int strength, int x, int y ) {
         initX = x;
         initY = y;
         this.angleDeg = angle;
         this.angleRad = Math.toRadians(angle);
         this.velocity = (strength + 100) / 9;
-        currBall = ResourceManager.getImage("resources/balls/ball_" + (r.nextInt(spriteCount)+1) + ".png");
-        currBall = currBall.getScaledCopy(width,height);
+
+        currBall = ResourceManager.getImage("resources/balls/ball_" + (r.nextInt(spriteCount) + 1) + ".png");
+        currBall = currBall.getScaledCopy(width, height);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class Ball extends CannonGame {
         try {
             if (!hasFallen()) {
                 t = t + 0.5;
-                ballX = (int) Math.floor((initX) +((Math.cos(angleRad)) * t) * velocity);
+                ballX = (int) Math.floor((initX) + ((Math.cos(angleRad)) * t) * velocity);
                 ballY = (int) Math.floor((initY) - ((((Math.sin(angleRad)) * t) - (((t * (t / 10)) * gravity) / 5))) * velocity);
             }
         } catch (Exception ignore) {
@@ -61,12 +63,10 @@ public class Ball extends CannonGame {
         }
 
 
-
     }
 
     @Override
     public void render(GameContainer gameContainer, org.newdawn.slick.Graphics graphics) throws SlickException {
-
 
 
         if (boxWidth == null) {
