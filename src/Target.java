@@ -26,9 +26,7 @@ public class Target extends CannonGame {
 
     public boolean hit(Ball ball) {
         if ((ball.ballX + ball.ballWidth) >= targetX && (ball.ballX) <= (targetX + targetWidth)) {
-            if ((ball.ballY + ball.ballHeight) >= targetY && (ball.ballY) <= (targetY)) {
-                return true;
-            }
+            return (ball.ballY + ball.ballHeight) >= targetY && (ball.ballY) <= (targetY);
         }
         return false;
     }

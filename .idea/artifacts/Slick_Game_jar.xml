@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Slick_Game:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Slick_Game_jar</output-path>
+    <root id="archive" name="Slick_Game.jar">
+      <element id="module-output" name="Slick_Game" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/ibxm.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/jnlp.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/lwjgl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/slick.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/jinput.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/jogg-0.0.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/lwjgl_util.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/tinylinepp.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/natives-mac.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/jorbis-0.0.15.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/natives-linux.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/slick-examples.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/Libraries/slick/lib/lwjgl_util_applet.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

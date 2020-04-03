@@ -64,7 +64,7 @@ class CannonGame extends BasicGame {
         bg = new Landscape();
         cannon = new Cannon();
         target = new Target();
-        target.reset();
+        Target.reset();
         currBall = new Ball();
         ft50 = ResourceManager.getFont("resources/WHITRABT.ttf", 50);
         ft20 = ResourceManager.getFont("resources/WHITRABT.ttf", 20);
@@ -143,14 +143,12 @@ class CannonGame extends BasicGame {
 
         } else {
             //Projectile Update Start-----------------
-            if (!startup) {
-                cannon.update(gameContainer, i);
-                if (!activeBall) {
-                    if (input.isKeyDown(Input.KEY_SPACE) && currentBalls > 0) {
-                        currBall = cannon.fire();
-                        activeBall = true;
+            cannon.update(gameContainer, i);
+            if (!activeBall) {
+                if (input.isKeyDown(Input.KEY_SPACE) && currentBalls > 0) {
+                    currBall = cannon.fire();
+                    activeBall = true;
 
-                    }
                 }
             }
 
@@ -164,7 +162,7 @@ class CannonGame extends BasicGame {
                     if (target.hit(currBall)) {
                         score++;
                         activeBall = false;
-                        target.reset();
+                        Target.reset();
                     }
                 } catch (Exception ignore) {
 
@@ -173,11 +171,7 @@ class CannonGame extends BasicGame {
             }
             //------------------Projectile Update End
             //Developer mode Start-----------------
-            if (input.isKeyDown(Input.KEY_D)) {
-                devMode = true;
-            } else {
-                devMode = false;
-            }
+            devMode = input.isKeyDown(Input.KEY_D);
             //------------------Developer mode End
 
             //Reset Input Start--------------------
