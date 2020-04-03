@@ -223,19 +223,27 @@ class CannonGame extends BasicGame {
 
             //Startup menu Selector Start-----------------
             graphics.setColor(Color.black);
-            graphics.fillRect(halfWidth - 4, halfHeight - (menuHeight * menuOption) - 4, 400, 54);
+            graphics.fillRect(halfWidth - 4, halfHeight - (menuHeight * menuOption) - 4, 450, 54);
             if (frameset > 60) {
                 graphics.setColor(Color.white);
                 graphics.fillRect(halfWidth, halfHeight - (menuHeight * menuOption), 14, 46);
             }
+            String tmp;
 
+            if (difficulty == 1){
+                tmp = "Mode: "+target.setDifficulty(difficulty)+">";
+            } else if(difficulty == 4){
+                tmp = "Mode: <"+target.setDifficulty(difficulty);
+            } else {
+                tmp = "Mode: <"+target.setDifficulty(difficulty)+">";
 
+            }
             switch (menuOption) {
                 case 2:
                     ft50.drawString(halfWidth + 20, halfHeight - (menuHeight * 2) + 4, "Start Game", Color.white);
                     break;
                 case 1:
-                    ft50.drawString(halfWidth + 20, halfHeight - (menuHeight) + 4, "Mode: "+target.setDifficulty(difficulty), Color.white);
+                    ft50.drawString(halfWidth + 20, halfHeight - (menuHeight) + 4, tmp, Color.white);
                     break;
                 case 0:
                     ft50.drawString(halfWidth + 20, halfHeight + 4, "Help", Color.white);
