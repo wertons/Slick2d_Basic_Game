@@ -5,45 +5,59 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Commit {
+    URL urlPath;
+    Scanner sc;
+    StringBuffer strBuff;
+    String result;
+    String tmpStr;
+    Pattern ptrn;
+    Matcher mtchr;
+
     public int getCommits() throws IOException {
-        URL url = new URL("https://github.com/wertons/Slick2d_Basic_Game");
-        Scanner sc = new Scanner(url.openStream());
-        StringBuffer sb = new StringBuffer();
+        //Commit Scanner Start-----------------
+        urlPath = new URL("https://github.com/wertons/Slick2d_Basic_Game");
+        sc = new Scanner(urlPath.openStream());
+        strBuff = new StringBuffer();
         while (sc.hasNext()) {
-            sb.append(sc.next());
+            strBuff.append(sc.next());
         }
-        String result = sb.toString();
+        result = strBuff.toString();
         result = result.replaceAll("<[^>]*>", "");
-        String tmp = "";
-        Pattern p = Pattern.compile("SignupAbasicSlick2djavaproject.*commits");
-        Matcher m = p.matcher(result);
-        if (m.find()) {
-            tmp = m.group();
-            tmp = tmp.replace("SignupAbasicSlick2djavaproject", "");
-            tmp = tmp.replace("commits", "");
+        tmpStr = "";
+        ptrn = Pattern.compile("SignupAbasicSlick2djavaproject.*commits");
+        mtchr = ptrn.matcher(result);
+        if (mtchr.find()) {
+            tmpStr = mtchr.group();
+            tmpStr = tmpStr.replace("SignupAbasicSlick2djavaproject", "");
+            tmpStr = tmpStr.replace("commits", "");
         }
-        return Integer.parseInt(tmp);
+        return Integer.parseInt(tmpStr);
+        //-----------------Commit Scanner End
+
     }
 
     public String[] getControls() throws IOException {
-        URL url = new URL("https://github.com/wertons/Slick2d_Basic_Game/blob/master/Rules.md");
-        Scanner sc = new Scanner(url.openStream());
-        StringBuffer sb = new StringBuffer();
+        //Controls Scanner Start-----------------
+        urlPath = new URL("https://github.com/wertons/Slick2d_Basic_Game/blob/master/Rules.md");
+        sc = new Scanner(urlPath.openStream());
+        strBuff = new StringBuffer();
         while (sc.hasNext()) {
-            sb.append(sc.next());
+            strBuff.append(sc.next());
         }
-        String result = sb.toString();
+        result = strBuff.toString();
         result = result.replaceAll("<[^>]*>", "");
-        String tmp = "";
-        Pattern p = Pattern.compile("RawBlameHistory.*->Go&copy;");
-        Matcher m = p.matcher(result);
-        if (m.find()) {
-            tmp = m.group();
-            tmp = tmp.replace("RawBlameHistory", "");
-            tmp = tmp.replace("-->Go&copy;", "");
-            tmp = tmp.replace("Controls", "");
+        tmpStr = "";
+        ptrn = Pattern.compile("RawBlameHistory.*->Go&copy;");
+        mtchr = ptrn.matcher(result);
+        if (mtchr.find()) {
+            tmpStr = mtchr.group();
+            tmpStr = tmpStr.replace("RawBlameHistory", "");
+            tmpStr = tmpStr.replace("-->Go&copy;", "");
+            tmpStr = tmpStr.replace("Controls", "");
 
         }
-        return tmp.split("[.]");
+        return tmpStr.split("[.]");
+        //-----------------Controls Scanner End
+
     }
 }

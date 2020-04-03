@@ -23,7 +23,6 @@ class CannonGame extends BasicGame {
     Cannon cannon;
     Target target;
     Ball currBall;
-    Rectangle resetLoad;
     boolean startup = true;
     boolean reset = false;
     int resetTimeout = 0;
@@ -49,7 +48,6 @@ class CannonGame extends BasicGame {
     Commit com = new Commit();
     int version;
     String[] rules;
-    int menuWidth;
     int menuHeight = 75;
     int menuOption = 2;
     int difficulty = 1;
@@ -134,13 +132,13 @@ class CannonGame extends BasicGame {
                 }
             }
             //-----------------Startup menu controls End
-            //-----------------Help Screen Start
+            //Help Screen Start-----------------
             if (helpScreen) {
                 if (input.isKeyDown(Input.KEY_ESCAPE)) {
                     helpScreen = false;
                 }
             }
-            //Help Screen End-----------------
+            //-----------------Help Screen End
 
 
         } else {
@@ -315,8 +313,8 @@ class CannonGame extends BasicGame {
                 graphics.setColor(Color.white);
                 graphics.fillRect(rectWidth, rectHeight, cannonWidth, cannonHeight);
                 Color strColor;
-                if (cannon.getStrength() != 100) {
-                    strColor = strengthColor(cannon.getStrength());
+                if (cannon.getCannonStrength() != 100) {
+                    strColor = strengthColor(cannon.getCannonStrength());
                 } else {
                     if (frameset % 3 == 0) {
                         strColor = Color.white;
@@ -325,7 +323,7 @@ class CannonGame extends BasicGame {
                     }
                 }
                 graphics.setColor(strColor);
-                graphics.fillRect(rectWidth, rectHeight, (float) (cannon.getStrength() * (cannonWidth / 100)), cannonHeight);
+                graphics.fillRect(rectWidth, rectHeight, (float) (cannon.getCannonStrength() * (cannonWidth / 100)), cannonHeight);
                 //----------------- Strength display End
 
                 //Score board Start-----------------
@@ -361,10 +359,10 @@ class CannonGame extends BasicGame {
                     graphics.setColor(Color.green);
                     for (int i = 0; i < 200; i++) {
 
-                        int tmpiniX = (int) ((Math.cos(Math.toRadians(cannon.rotation))) * 200) + cannon.x;
-                        int tmpiniY = cannon.y - (int) ((Math.sin(Math.toRadians(cannon.rotation))) * 200);
-                        int tmpX = (int) Math.floor((tmpiniX) + ((Math.cos(Math.toRadians(cannon.rotation))) * i) * ((cannon.strength + 100) / 9));
-                        int tmpY = (int) Math.floor((tmpiniY) - ((((Math.sin(Math.toRadians(cannon.rotation))) * i) - (((i * (i / 10)) * 0.5) / 5))) * ((cannon.strength + 100) / 9));
+                        int tmpiniX = (int) ((Math.cos(Math.toRadians(cannon.cannonAngle))) * 200) + cannon.cannonX;
+                        int tmpiniY = cannon.cannonY - (int) ((Math.sin(Math.toRadians(cannon.cannonAngle))) * 200);
+                        int tmpX = (int) Math.floor((tmpiniX) + ((Math.cos(Math.toRadians(cannon.cannonAngle))) * i) * ((cannon.cannonStrength + 100) / 9));
+                        int tmpY = (int) Math.floor((tmpiniY) - ((((Math.sin(Math.toRadians(cannon.cannonAngle))) * i) - (((i * (i / 10)) * 0.5) / 5))) * ((cannon.cannonStrength + 100) / 9));
                         graphics.fillRect(tmpX, tmpY, 15, 15);
                     }
                 }
