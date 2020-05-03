@@ -157,6 +157,7 @@ class CannonGame extends BasicGame {
                 if (currBall.hasFallen()) {
                     currentBalls--;
                     activeBall = false;
+                    currBall = new Ball();
                 }
                 try {
                     if (target.hit(currBall)) {
@@ -315,8 +316,8 @@ class CannonGame extends BasicGame {
                 graphics.setColor(Color.white);
                 graphics.fillRect(rectWidth, rectHeight, cannonWidth, cannonHeight);
                 Color strColor;
-                if (cannon.getCannonStrength() != 100) {
-                    strColor = strengthColor(cannon.getCannonStrength());
+                if (cannon.getStrength() != 100) {
+                    strColor = strengthColor(cannon.getStrength());
                 } else {
                     if (frameset % 3 == 0) {
                         strColor = Color.white;
@@ -325,7 +326,7 @@ class CannonGame extends BasicGame {
                     }
                 }
                 graphics.setColor(strColor);
-                graphics.fillRect(rectWidth, rectHeight, (float) (cannon.getCannonStrength() * (cannonWidth / 100)), cannonHeight);
+                graphics.fillRect(rectWidth, rectHeight, (float) (cannon.getStrength() * (cannonWidth / 100)), cannonHeight);
                 //----------------- Strength display End
 
                 //Score board Start-----------------
@@ -350,21 +351,21 @@ class CannonGame extends BasicGame {
                     ft20.drawString(10,
                             100, "Y: " + currBall.ballY, Color.black);
                     ft20.drawString(10,
-                            150, "Angle: " + currBall.angleDeg, Color.black);
+                            150, "Angle: " + cannon.angle, Color.black);
                     ft20.drawString(10,
-                            200, "Velocity: " + currBall.velocity, Color.black);
+                            200, "Velocity: " + (cannon.strength+100)/5, Color.black);
                     ft20.drawString(10,
-                            250, "Cos: " + Math.cos(currBall.angleRad), Color.black);
+                            250, "Cos: " + Math.cos(Math.toRadians(cannon.angle)), Color.black);
                     ft20.drawString(10,
-                            300, "Sin: " + Math.sin(currBall.angleRad), Color.black);
+                            300, "Sin: " + Math.sin(Math.toRadians(cannon.angle)), Color.black);
 
                     graphics.setColor(Color.green);
                     for (int i = 0; i < 200; i++) {
 
-                        int tmpiniX = (int) ((Math.cos(Math.toRadians(cannon.cannonAngle))) * 200) + cannon.cannonX;
-                        int tmpiniY = cannon.cannonY - (int) ((Math.sin(Math.toRadians(cannon.cannonAngle))) * 200);
-                        int tmpX = (int) Math.floor((tmpiniX) + ((Math.cos(Math.toRadians(cannon.cannonAngle))) * i) * ((cannon.cannonStrength + 100) / 9));
-                        int tmpY = (int) Math.floor((tmpiniY) - ((((Math.sin(Math.toRadians(cannon.cannonAngle))) * i) - (((i * (i / 10)) * 0.5) / 5))) * ((cannon.cannonStrength + 100) / 9));
+                        int tmpiniX = (int) ((Math.cos(Math.toRadians(cannon.angle))) * 200) + cannon.x;
+                        int tmpiniY = cannon.y - (int) ((Math.sin(Math.toRadians(cannon.angle))) * 200);
+                        int tmpX = (int) Math.floor((tmpiniX) + ((Math.cos(Math.toRadians(cannon.angle))) * i) * ((cannon.strength + 100) / 5));
+                        int tmpY = (int) Math.floor((tmpiniY) - ((((Math.sin(Math.toRadians(cannon.angle))) * i) - (((i * (i / 10)) * 0.5) / 5))) * ((cannon.strength + 100) / 5));
                         graphics.fillRect(tmpX, tmpY, 15, 15);
                     }
                 }

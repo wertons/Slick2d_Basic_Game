@@ -16,6 +16,7 @@ public class Target extends CannonGame {
     static int targetX = r.nextInt(250) + 150;
     static int targetY = 820;
     static int yRange = 1;
+
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         target = ResourceManager.getImage("resources/target.png");

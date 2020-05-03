@@ -15,7 +15,7 @@ public class Ball extends CannonGame {
     Integer ballX;
     Integer ballY;
     Integer boxWidth;
-    Integer boxHeight;
+    Integer boxHeight = 900;
     float angleDeg;
     double angleRad;
     double velocity;
@@ -26,7 +26,7 @@ public class Ball extends CannonGame {
     Ball() {
     }
 
-    Ball(float angle, int strength, int x, int y) {
+    Ball(float angle, float strength, int x, int y) {
         ballInitX = x;
         ballInitY = y;
         this.angleDeg = angle;

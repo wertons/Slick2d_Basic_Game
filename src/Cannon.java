@@ -2,10 +2,10 @@ import org.newdawn.slick.*;
 
 public class Cannon extends CannonGame {
 
-    float cannonAngle = 0;
-    int cannonStrength = 0;
-    int cannonX;
-    int cannonY;
+    float angle = 0;
+    float strength = 0;
+    int x;
+    int y;
     Image cannon;
     Image cannonBase;
 
@@ -15,26 +15,26 @@ public class Cannon extends CannonGame {
     public void update(GameContainer gameContainer, int i) throws SlickException {
         Input input = gameContainer.getInput();
         if (input.isKeyDown(Input.KEY_DOWN)) {
-            if (cannon.getRotation() * -1 > 5) {
+            if (cannon.getRotation() * -1 > 0) {
                 cannon.rotate(2);
-                cannonAngle = cannon.getRotation() * -1;
+                angle = cannon.getRotation() * -1;
             }
         }
         if (input.isKeyDown(Input.KEY_UP)) {
             if (cannon.getRotation() * -1 < 90) {
                 cannon.rotate(-2);
-                cannonAngle = cannon.getRotation() * -1;
+                angle = cannon.getRotation() * -1;
             }
         }
 
         if (input.isKeyDown(Input.KEY_RIGHT)){
-            if (cannonStrength < 100){
-                cannonStrength++;
+            if (strength < 100){
+                strength++;
             }
         }
         if (input.isKeyDown(Input.KEY_LEFT)){
-            if (cannonStrength > 0) {
-                cannonStrength--;
+            if (strength > 0) {
+                strength--;
             }
         }
     }
@@ -42,18 +42,18 @@ public class Cannon extends CannonGame {
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         cannon = ResourceManager.getImage("resources/cannon.png");
-        cannonX = 25;
-        cannonY = gameContainer.getHeight() - 150;
+        x = 25;
+        y = gameContainer.getHeight() - 150;
         cannonBase = ResourceManager.getImage("resources/cannon_base.png");
-        graphics.drawImage(cannon, cannonX, cannonY);
-        graphics.drawImage(cannonBase, cannonX, cannonY +30);
+        graphics.drawImage(cannon, x, y);
+        graphics.drawImage(cannonBase, x, y +30);
         cannon.setCenterOfRotation(35, 35);
 
     }
 
     Ball fire(){
-         return new Ball(cannonAngle, cannonStrength,(int)((Math.cos(Math.toRadians(cannonAngle)))*200) + cannonX, cannonY - (int)((Math.sin(Math.toRadians(cannonAngle)))*200));
+         return new Ball(angle, strength,(int)((Math.cos(Math.toRadians(angle)))*200) + x, y - (int)((Math.sin(Math.toRadians(angle)))*200));
 
     }
-    double getCannonStrength(){return cannonStrength;}
+    double getStrength(){return strength;}
 }
